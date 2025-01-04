@@ -5,6 +5,7 @@
 
 local RUI = LibStub('AceAddon-3.0'):NewAddon('RetailUI', 'AceConsole-3.0')
 local AceConfig = LibStub("AceConfig-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local AceDB = LibStub("AceDB-3.0")
 
 RUI.InterfaceVersion = select(4, GetBuildInfo())
@@ -14,6 +15,8 @@ RUI.DB = nil
 function RUI:OnInitialize()
 	RUI.DB = AceDB:New("RetailUIDB", RUI.default, true)
 	AceConfig:RegisterOptionsTable("RUI Commands", RUI.optionsSlash, "rui")
+	AceConfig:RegisterOptionsTable("Retail UI", RUI.optionsGUI)
+	AceConfigDialog:AddToBlizOptions("Retail UI", "Retail UI")
 end
 
 function RUI:OnEnable() end

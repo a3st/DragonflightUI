@@ -644,7 +644,7 @@ local atlasTextures = {
         asset = ActionBarHorizontalAsset, texcoord = { 464, 500, 475, 508 }
     },
     ['ActionMainBar-TopRight'] = {
-        asset = ActionBarHorizontalAsset, texcoord = { 461, 497, 442, 473 }
+        asset = ActionBarHorizontalAsset, texcoord = { 461, 497, 441, 474 }
     },
     ['ActionMainBar-BottomLeft'] = {
         asset = ActionBarHorizontalAsset, texcoord = { 466, 502, 388, 420 }

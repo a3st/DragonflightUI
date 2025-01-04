@@ -64,3 +64,25 @@ RUI.default = {
         widgets = {}
     }
 }
+
+RUI.optionsGUI = {
+    name = GetAddOnMetadata("RetailUI", "Title"),
+    type = 'group',
+    args = {
+        version = {
+            order = 1,
+            type = 'description',
+            name = "|cffffd700 Version|r " .. GetAddOnMetadata("RetailUI", "Version") .. "\n",
+        },
+        title = {
+            order = 2,
+            type = 'description',
+            name = [[Make your interface look like Retail]],
+        },
+        break1 = {
+            order = 3,
+            type = "header",
+            name = ""
+        }
+    }
+}

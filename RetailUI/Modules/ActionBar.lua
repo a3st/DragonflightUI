@@ -7,6 +7,79 @@ local RUI = LibStub('AceAddon-3.0'):GetAddon('RetailUI')
 local moduleName = 'ActionBar'
 local Module = RUI:NewModule(moduleName, 'AceConsole-3.0', 'AceHook-3.0', 'AceEvent-3.0')
 
+RUI.optionsGUI.args[moduleName] = {
+    type = "group",
+    name = "Action Bars",
+    args = {
+    }
+}
+
+local function AddActionBarToSettings(barName, actionBar)
+    RUI.optionsGUI.args[moduleName].args[barName] = {
+        order = 10,
+        type = "group",
+        name = barName,
+        args = {
+            posX = {
+                order = 2,
+                name = "Position X",
+                type = "range",
+                min = 0.1,
+                max = 1,
+                step = 0.1,
+                bigStep = 0.1,
+                --[[get = function(info) return RUI.DB.profile.widgets['actionBar' .. 1].posX end,
+                set = function(info, value)
+                    anchor = "BOTTOMRIGHT", posX = 50, posY = 10
+                    RUI.DB.profile.widgets['actionBar' .. 1].displayArt = value
+                    Module:UpdateWidgets()
+                end]]--
+            },
+            posY = {
+                order = 2,
+                name = "Position Y",
+                type = "range",
+                min = 0.1,
+                max = 1,
+                step = 0.1,
+                bigStep = 0.1
+            },
+            anchor = {
+                order = 3,
+                name = "Anchor",
+                type = "select",
+                style = "dropdown",
+                values = {
+                    top = "TOP",
+                    left = "LEFT",
+                    right = "RIGHT",
+                    bottom = "BOTTOM",
+                    topleft = "TOPLEFT",
+                    topright = "TOPRIGHT",
+                    bottomleft = "BOTTOMLEFT",
+                    bottomright = "BOTTOMRIGHT"
+                }
+            },
+            relativeTo = {
+                order = 3,
+                name = "RelativeTo",
+                type = "select",
+                style = "dropdown",
+                values = {
+                    UIParent = "UIParent",
+                    actionBar1 = "ActionBar 1",
+                    actionBar2 = "ActionBar 2",
+                    actionBar3 = "ActionBar 3",
+                    actionBar4 = "ActionBar 4",
+                    actionBar5 = "ActionBar 5",
+                    repExpBar = "RepExpBar",
+                    stanceBar = "StanceBar"
+                }
+            },
+        }
+    }
+end
+
 Module.actionBars = {}
 Module.repExpBar = nil
 Module.bagsBar = nil
@@ -1023,17 +1096,38 @@ function Module:OnEnable()
         ActionButton_ShowGrid(button)
     end
 
+    AddActionBarToSettings('Action Bar 1', self.actionBars[MAIN_ACTION_BAR_ID])
+
+    -- Display Art Option
+    RUI.optionsGUI.args[moduleName].args['Action Bar 1'].args['displayArt'] = {
+        order = 1,
+        type = "toggle",
+        name = "Display Art Textures",
+        width = "full",
+        get = function(info) return RUI.DB.profile.widgets['actionBar' .. 1].displayArt end,
+        set = function(info, value)
+            RUI.DB.profile.widgets['actionBar' .. 1].displayArt = value
+            Module:UpdateWidgets()
+        end
+    }
+
     -- RepExp
     self.repExpBar = CreateUIFrame(self.actionBars[MAIN_ACTION_BAR_ID]:GetWidth(), 10, "RepExpBar")
+
+    AddActionBarToSettings('Rep Exp Bar', self.repExpBar)
 
     -- Bottom Side
     for index = 2, 3 do
         self.actionBars[index] = CreateActionFrameBar(index, 12, 42, 4, false)
+
+        AddActionBarToSettings('Action Bar ' .. index, self.actionBars[index])
     end
 
     -- Right Side
     for index = 4, 5 do
         self.actionBars[index] = CreateActionFrameBar(index, 12, 42, 6, true)
+
+        AddActionBarToSettings('Action Bar ' .. index, self.actionBars[index])
     end
 
     -- Bonus
@@ -1198,6 +1292,14 @@ function Module:UpdateWidgets()
     for index, actionBar in pairs(self.actionBars) do
         local widgetOptions = RUI.DB.profile.widgets['actionBar' .. index]
         actionBar:SetPoint(widgetOptions.anchor, widgetOptions.posX, widgetOptions.posY)
+    end
+
+    if RUI.DB.profile.widgets['actionBar' .. 1].displayArt then
+        MainMenuBarLeftEndCap:Show()
+        MainMenuBarRightEndCap:Show()
+    else
+        MainMenuBarLeftEndCap:Hide()
+        MainMenuBarRightEndCap:Hide()
     end
 
     local widgetOptions = RUI.DB.profile.widgets.microMenuBar
