@@ -1188,3 +1188,8 @@ function Module:HideEditorTest(refresh)
         self:UpdateWidgets()
     end
 end
+
+-- Fix for druid mana bar in cat/bear forms
+PlayerFrameAlternateManaBar:ClearAllPoints() 
+PlayerFrameAlternateManaBar:SetPoint("BOTTOM",PlayerFrame,37,6)
+PlayerFrameAlternateManaBar:SetUserPlaced(true)
