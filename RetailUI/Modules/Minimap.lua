@@ -43,7 +43,7 @@ local function ReplaceBlizzardFrame(frame)
     minimapZoneButton:ClearAllPoints()
     minimapZoneButton:SetPoint("LEFT", minimapBorderTop, "LEFT", 7, 1)
     minimapZoneButton:SetWidth(108)
-    
+
     minimapZoneButton:EnableMouse(true)
 	minimapZoneButton:SetScript("OnMouseUp", function(self, button)
     if button == "LeftButton" then
@@ -227,7 +227,7 @@ local function RemoveBlizzardFrames()
         MiniMapWorldMapButton:SetScript("OnEnter", nil)
         MiniMapWorldMapButton:SetScript("OnLeave", nil)
     end
-    
+
     local blizzFrames = {
         MiniMapTrackingIcon,
         MiniMapTrackingIconOverlay,
@@ -352,6 +352,24 @@ end
 function Module:UpdateWidgets()
     local widgetOptions = RUI.DB.profile.widgets.minimap
     self.minimapFrame:SetPoint(widgetOptions.anchor, widgetOptions.posX, widgetOptions.posY)
+
+    local captureBar1 = _G["WorldStateCaptureBar1"]
+    if captureBar1 then
+        captureBar1:ClearAllPoints()
+        captureBar1:SetPoint("TOP", self.minimapFrame, "BOTTOM", -10, -10)
+    end
+
+    local captureBar2 = _G["WorldStateCaptureBar2"]
+    if captureBar2 then
+        captureBar2:ClearAllPoints()
+        captureBar2:SetPoint("TOP", self.minimapFrame, "BOTTOM", -10, -30)
+    end
+
+    local captureBar3 = _G["WorldStateCaptureBar3"]
+    if captureBar3 then
+        captureBar3:ClearAllPoints()
+        captureBar3:SetPoint("TOP", self.minimapFrame, "BOTTOM", -10, -40)
+    end
 end
 
 function Module:ShowEditorTest()
